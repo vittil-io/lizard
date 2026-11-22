@@ -31,6 +31,7 @@
 #include "utils/timing.h"
 #include "utils/uart.h"
 #include "utils/uart_driver.h"
+#include "vittil.h"
 #include <cctype>
 #include <chrono>
 #include <functional>
@@ -638,6 +639,7 @@ void app_main() {
     // Read the persisted baud rate before configuring UART0 (default 115200). NVS must be initialized first.
     // Note: the ROM bootloader and early boot log always use 115200 regardless of this value.
     nvs_flash_init();
+    vittil_start(); // crash reports to Vittil: the coredump already kept in flash uploads on the next boot
     uint32_t baud_rate = CONSOLE_DEFAULT_BAUD_RATE;
     Storage::get_baudrate(baud_rate);
     // a node whose console is a bus link prints at the link's rate from here on, so its coordinator can read
